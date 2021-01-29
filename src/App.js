@@ -1,23 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import Stocks from './components/Stocks';
+import Store from './context/Store';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Store>
+        <h1 style={{ color: '#28529e' }}>Welcome to Super Simple Stocks</h1>
+        <Stocks />
+      </Store>
     </div>
   );
 }
