@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { getData } from '../context/Service';
 import { Context } from '../context/Store';
-
+import Constants from '../constants/CommonConstants';
 
 const useStyles = makeStyles({
     table: {
@@ -23,13 +23,12 @@ export default function StocksTable() {
     const [state, dispatch] = useContext(Context);
 
     useEffect(() => {
-        const urlName = 'http://localhost:8080/listStocks';
-        getData(urlName, (res) => {
+        getData(Constants.LIST_STOCKS_URL, (res) => {
             const stocks = res.data;
-            dispatch({ type: 'FETCH_STOCKS', payload: stocks });
+            dispatch({ type: Constants.DISPATCH_FETCH_STOCKS, payload: stocks });
         }, (error) => {
             console.log(error);
-            dispatch({ type: 'SET_ERROR', payload: error });
+            dispatch({ type: Constants.DISPATCH_SET_ERROR, payload: error });
         });
 
 

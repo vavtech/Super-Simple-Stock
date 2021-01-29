@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Context } from '../context/Store';
 import { getData, postData } from '../context/Service';
+import Constants from '../constants/CommonConstants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,13 +51,13 @@ const TradeForm = () => {
 
     const handleFormSubmit = (e) => {
         if (!stock) {
-            setResult("Please select a stock symbol !!");
+            setResult(Constants.INVALID_STOCK);
         }
         else if (!price) {
-            setResult("Please enter price!!");
+            setResult(Constants.INVALID_PRICE);
         }
         else if (!quantity) {
-            setResult("Please enter quantity !!");
+            setResult(Constants.INVALID_QUANTITY);
         }
         else {
             const json = JSON.stringify({
@@ -67,32 +68,35 @@ const TradeForm = () => {
                 "sell": (value === "sell")
             });
 
-            const urlName = 'http://localhost:8080/recodeTrade';
-            postData(urlName, json, (res) => {
+            postData(Constants.TRADE_URL, json, (res) => {
                 const result = res.data.message;
                 setResult(result);
-                if (res.data.message === "Trade Success !!") {
-                    dispatch({ type: 'UPDATE_TRADE', payload: res.data.data });
+                if (res.data.message === Constants.TRADE_SUCCESS) {
+                    dispatch({ type: Constants.DISPATCH_UPDATE_TRADE, payload: res.data.data });
                 }
             }, (error) => {
                 console.log(error);
-                dispatch({ type: 'SET_ERROR', payload: error });
+                dispatch({ type: Constants.DISPATCH_SET_ERROR, payload: error });
             });
         }
     };
 
     const setupStocks = () => {
-        const urlName = 'http://localhost:8080/listStocks';
-        getData(urlName, (res) => {
+        getData(Constants.LIST_STOCKS_URL, (res) => {
             const stocks = res.data;
-            dispatch({ type: 'FETCH_STOCKS', payload: stocks });
+            dispatch({ type: Constants.DISPATCH_FETCH_STOCKS, payload: stocks });
         }, (error) => {
             console.log(error);
-            dispatch({ type: 'SET_ERROR', payload: error });
+            dispatch({ type: Constants.DISPATCH_SET_ERROR, payload: error });
         });
     };
 
-    let stockOption = <p>Loading...</p>
+    let stockOption = <p>{Constants.LOADING}</p>
+
+    if (state.error) {
+        stockOption = <p>{Constants.SOMETHING_WENT_WRONG}</p>
+    }
+
     if (!state.stocks.length > 0) {
         setupStocks();
     }

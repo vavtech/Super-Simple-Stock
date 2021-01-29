@@ -1,7 +1,9 @@
 import axios from 'axios';
+import Constants from '../constants/CommonConstants';
 
 export function getData(url, callback, errorcallback) {
-    axios.get(url)
+    const path = Constants.BASE_URL + Constants.COLON + Constants.PORT + Constants.FORWARD_SLASH + url;
+    axios.get(path)
         .then(res => {
             if (callback != null) {
                 callback(res);
@@ -15,7 +17,8 @@ export function getData(url, callback, errorcallback) {
 }
 
 export function postData(url, data, callback, errorcallback) {
-    axios.post(url, data, {
+    const path = Constants.BASE_URL + Constants.COLON + Constants.PORT + Constants.FORWARD_SLASH + url;
+    axios.post(path, data, {
         headers: {
             'Content-Type': 'application/json'
         }

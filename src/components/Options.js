@@ -28,7 +28,7 @@ const Options = () => {
         id: "VWSP",
         name: "calculate VWSP",
         title: "Volume Weighted Stock Price",
-        description: "Calulating Volume Weighted Stock Price, based on trades in past 'x' minutes",
+        description: "Calulating Volume Weighted Stock Price, based on trades in past 'x' minutes (Default is 15 minutes)",
         showSelectionAndInput: true
     },
     {

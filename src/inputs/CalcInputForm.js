@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Context } from '../context/Store';
 import { getData } from '../context/Service';
+import Constants from '../constants/CommonConstants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,16 +44,16 @@ const SelectAndInput = (props) => {
         let urlName;
         switch (props.id) {
             case 'DY':
-                urlName = 'http://localhost:8080/calculateDividendYield/' + stock + '/' + price;
+                urlName = Constants.DIVIDEND_YIELD_URL + Constants.FORWARD_SLASH + stock + Constants.FORWARD_SLASH + price;
                 break;
             case 'PE':
-                urlName = 'http://localhost:8080/calculatePERatio/' + stock + '/' + price;
+                urlName = Constants.PE_RATIO_URL + Constants.FORWARD_SLASH + stock + Constants.FORWARD_SLASH + price;
                 break;
             case 'VWSP':
-                urlName = 'http://localhost:8080/calculateVWSP/' + minutes;
+                urlName = Constants.VWSP_URL + Constants.FORWARD_SLASH + minutes;
                 break;
             case 'GBCE':
-                urlName = 'http://localhost:8080/calculateGBCEShareIndex';
+                urlName = Constants.GBCE_URL;
                 break;
             default:
                 urlName = '';
@@ -64,14 +65,14 @@ const SelectAndInput = (props) => {
             setResult(result);
         }, (error) => {
             console.log(error);
-            dispatch({ type: 'SET_ERROR', payload: error });
+            dispatch({ type: Constants.DISPATCH_SET_ERROR, payload: error });
         });
     };
 
     const handleFormSubmit = (e) => {
         if (props.id === "VWSP") {
             if (!minutes) {
-                setResult("Please enter minutes !!");
+                setResult(Constants.INVALID_MINUTES);
             } else {
                 handleAPI();
             }
@@ -81,19 +82,19 @@ const SelectAndInput = (props) => {
         }
         else {
             if (!stock) {
-                setResult("Please select a stock symbol !!");
+                setResult(Constants.INVALID_STOCK);
             } else if (!price) {
-                setResult("Please enter price !!");
+                setResult(Constants.INVALID_PRICE);
             } else {
                 handleAPI();
             }
         }
     };
 
-    let stockOption = <p>Loading...</p>
+    let stockOption = <p>{Constants.LOADING}</p>
 
     if (state.error) {
-        stockOption = <p>Something went wrong !!</p>
+        stockOption = <p>{Constants.SOMETHING_WENT_WRONG}</p>
     }
 
     if (!state.error && state.stocks) {
