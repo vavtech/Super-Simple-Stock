@@ -1,27 +1,14 @@
 import React, { useState, useContext } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-import { Context } from '../context/Store';
-import { getData } from '../context/Service';
-import Constants from '../constants/CommonConstants';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
-
+import MyButton from '../Button/MyButton';
+import InputBox from '../InputBox/InputBox';
+import DropDown from '../DropDown/DropDown';
+import Text from '../Text/Text';
+import { Context } from '../../context/Store';
+import { getData } from '../../context/Service';
+import Constants from '../../constants/CommonConstants';
 
 const SelectAndInput = (props) => {
-    const classes = useStyles();
     const [stock, setStock] = useState('');
     const [price, setPrice] = useState('');
     const [minutes, setMinutes] = useState('15');
@@ -108,33 +95,15 @@ const SelectAndInput = (props) => {
     const ContentAll = () => {
         return (
             <div>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">Stocks</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={stock}
-                        style={{ width: 100 }}
-                        onChange={handleDropDownChange}
-                    >
-                        {stockOption}
-                    </Select>
-                </FormControl>
-
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField onChange={handlePrice} type="number" label="Price" value={price} variant="outlined" />
-                </form>
+                <DropDown value={stock} handler={handleDropDownChange} stockOptions={stockOption} />
+                <InputBox handler={handlePrice} value={price} label="Price" id={props.id} />
             </div>
         );
     }
 
     const ContentMinutes = () => {
         return (
-            <div>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField onChange={handleMinutes} id={props.id} type="number" label="Minutes" value={minutes} variant="outlined" />
-                </form>
-            </div>
+            <InputBox handler={handleMinutes} value={minutes} label="Minutes" id={props.id} />
         );
     }
 
@@ -147,10 +116,8 @@ const SelectAndInput = (props) => {
     return (
         <div>
             {content}
-            <Button variant="contained" color="primary" onClick={handleFormSubmit} >Calculate</Button>
-            <div>
-                <h2>Result: {result}</h2>
-            </div>
+            <MyButton handler={handleFormSubmit} label="Calculate" />
+            <Text text={result} />
         </div>
     );
 }

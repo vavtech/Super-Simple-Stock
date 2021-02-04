@@ -7,9 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getData } from '../context/Service';
-import { Context } from '../context/Store';
-import Constants from '../constants/CommonConstants';
+import { getData } from '../../context/Service';
+import { Context } from '../../context/Store';
+import Constants from '../../constants/CommonConstants';
 
 const useStyles = makeStyles({
     table: {

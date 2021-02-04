@@ -1,32 +1,18 @@
 import React, { useState, useContext } from 'react';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
+import MyButton from '../Button/MyButton';
+import InputBox from '../InputBox/InputBox';
+import DropDown from '../DropDown/DropDown';
+import Text from '../Text/Text';
+import MyRadio from '../MyRadio/MyRadio';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-import { Context } from '../context/Store';
-import { getData, postData } from '../context/Service';
-import Constants from '../constants/CommonConstants';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
+import { Context } from '../../context/Store';
+import { getData, postData } from '../../context/Service';
+import Constants from '../../constants/CommonConstants';
 
 
 const TradeForm = () => {
     const [state, dispatch] = useContext(Context);
-    const classes = useStyles();
+
     const [value, setValue] = useState('buy');
     const [stock, setStock] = useState('');
     const [price, setPrice] = useState('');
@@ -111,36 +97,23 @@ const TradeForm = () => {
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Stocks</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    style={{ width: 100 }}
-                    value={stock}
-                    onChange={handleDropDownChange}
-                >
-                    {stockOption}
-                </Select>
-            </FormControl>
+            <DropDown value={stock} handler={handleDropDownChange} stockOptions={stockOption} />
+            <InputBox handler={handlePrice} value={price} label="price" id="price" />
+            <InputBox handler={handleQuantity} value={quantity} label="quantity" id="quantity" />
 
-            <form className={classes.root} noValidate autoComplete="off">
-                <TextField onChange={handlePrice} type="number" id="price" label="Price" value={price} variant="outlined" />
-                <TextField onChange={handleQuantity} type="number" id="quantity" label="Quantity" value={quantity} variant="outlined" />
-            </form>
+            <MyRadio
+                label="Trade type"
+                typeLabel="Trade type"
+                value={value}
+                handler={handleTypeChange}
+                labelBtnOne="Buy"
+                valueBtnOne="buy"
+                labelBtnTwo="Sell"
+                valueBtnTwo="sell"
 
-            <FormControl component="fieldset">
-                <FormLabel component="legend">Trade type</FormLabel>
-                <RadioGroup aria-label="Trade type" name="type" value={value} onChange={handleTypeChange}>
-                    <FormControlLabel value="buy" control={<Radio />} label="Buy" />
-                    <FormControlLabel value="sell" control={<Radio />} label="Sell" />
-                </RadioGroup>
-
-                <Button variant="contained" color="primary" onClick={handleFormSubmit} >Trade</Button>
-            </FormControl>
-            <div>
-                <h2>Result: {result}</h2>
-            </div>
+            />
+            <MyButton handler={handleFormSubmit} label="Trade" />
+            <Text text={result} />
         </div>
     );
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal'
-import CalcInputForm from '../inputs/CalcInputForm';
-import TradeForm from '../inputs/TradeForm';
+import CalcInputForm from '../CalcInputForm/CalcInputForm';
+import TradeForm from '../TradeForm/TradeForm';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-Modal.setAppElement('#root');
+Modal.setAppElement('body');
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +25,7 @@ function MyModal(props) {
     }
 
     return (
-        <div className={classes.root}>
+        <div data-testid="mymodal" className={classes.root}>
             <Button variant="contained" color="primary" onClick={() => setModelIsOpen(true)}>{props.buttonName}</Button>
             <Modal isOpen={modalIsOpen} onRequestClose={() => setModelIsOpen(false)}
                 style={

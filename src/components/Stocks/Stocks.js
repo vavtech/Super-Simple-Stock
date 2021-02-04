@@ -1,6 +1,6 @@
-import StocksTable from './StocksTable';
-import Options from './Options';
-import TradeTable from '../components/TradeTable';
+import StocksTable from '../StockTable/StocksTable';
+import Options from '../Options/Options';
+import TradeTable from '../TradeTable/TradeTable';
 
 function Stocks() {
     return (
